@@ -1,5 +1,8 @@
 from deepface import DeepFace
 import os
+import logging
+
+logger = logging.getLogger(__name__)
 
 def start_emotion_detection_stream():
     # Create a temp folder for db_path (required by DeepFace.stream)
@@ -12,6 +15,21 @@ def start_emotion_detection_stream():
 
 def detect_emotion_from_webcam():
     return start_emotion_detection_stream()
+
+
+def analyze_frame(frame, actions=("emotion",), enforce_detection=False, detector_backend="opencv", silent=True):
+        try:
+                result = DeepFace.analyze(
+                        frame,
+                        actions=actions,
+                        enforce_detection=enforce_detection,
+                        detector_backend=detector_backend,
+                        silent=silent,
+                )
+                return result
+        except Exception as e:
+                logger.exception("DeepFace.analyze failed")
+                return {"error": str(e)}
 
 # Test the emotion detection
 if __name__ == "__main__":
