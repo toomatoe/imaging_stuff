@@ -1,1 +1,2 @@
-# imaging_stuff
+# So basically I am trying to develop a AI Virtual Assistant that can recognize voice and my facial expressions to then respond accordingly.
+# Will probably add an avatar and use whisper for the model so it can talk back.
