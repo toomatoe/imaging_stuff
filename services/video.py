@@ -23,10 +23,15 @@ def real_time_face_detection():
 
         cv2.imshow('Face Detection', frame)
 
+        
         # Break the loop on 'q' key press
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
 
+<<<<<<< HEAD
+=======
+    
+>>>>>>> refs/remotes/origin/main
     cap.release()
     cv2.destroyAllWindows()
 
