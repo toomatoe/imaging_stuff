@@ -26,11 +26,12 @@ def real_time_face_detection():
         # Display the frame
         cv2.imshow('Face Detection', frame)
 
+        
         # Break the loop on 'q' key press
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
 
-    # Release the webcam and close windows
+    
     cap.release()
     cv2.destroyAllWindows()
 
