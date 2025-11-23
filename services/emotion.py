@@ -4,8 +4,30 @@ import threading
 from queue import Queue, Empty
 from deepface import DeepFace
 
+# Try to detect GPU availability via TensorFlow or PyTorch. If GPU is present,
+# we'll analyze more frequently (possibly every frame). If not, keep a larger
+# skip factor to avoid overwhelming the CPU.
+GPU_AVAILABLE = False
+try:
+    import tensorflow as _tf
+    try:
+        GPU_AVAILABLE = len(_tf.config.list_physical_devices("GPU")) > 0
+    except Exception:
+        GPU_AVAILABLE = False
+except Exception:
+    # TensorFlow might not be installed in this environment; try PyTorch
+    try:
+        import torch as _torch
 
-ANALYZE_EVERY_N_FRAMES = 12
+        GPU_AVAILABLE = _torch.cuda.is_available()
+    except Exception:
+        GPU_AVAILABLE = False
+
+# Analysis frequency: if GPU is available, analyze more often (1-2 frames).
+# On CPU we'll keep a conservative default to reduce latency.
+ANALYZE_EVERY_N_FRAMES = 2 if GPU_AVAILABLE else 6
+
+print(f"GPU_AVAILABLE={GPU_AVAILABLE}; ANALYZE_EVERY_N_FRAMES={ANALYZE_EVERY_N_FRAMES}")
 
 def analyzer_worker(in_q: Queue, out_q: Queue, stop_event: threading.Event):
   
@@ -49,7 +71,7 @@ def start_emotion_detection_stream():
     latest_result = None
     last_analysis_time = 0.0
 
-    # Overlay styling variables (use meaningful names instead of magic numbers)
+
     EMO_TEXT_POS = (10, 30)
     EMO_FONT = cv2.FONT_HERSHEY_SIMPLEX
     EMO_FONT_SCALE = 1.0
