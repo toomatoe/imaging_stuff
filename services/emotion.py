@@ -25,7 +25,8 @@ except Exception:
 
 # Analysis frequency: if GPU is available, analyze more often (1-2 frames).
 # On CPU we'll keep a conservative default to reduce latency.
-ANALYZE_EVERY_N_FRAMES = 2 if GPU_AVAILABLE else 6
+ANALYZE_EVERY_N_FRAMES = 2 if GPU_AVAILABLE else 6  # Analyze more often if GPU is available
+FRAME_RESIZE_DIM = (320, 240)  # Resize frames to 320x240 for faster processing
 
 print(f"GPU_AVAILABLE={GPU_AVAILABLE}; ANALYZE_EVERY_N_FRAMES={ANALYZE_EVERY_N_FRAMES}")
 
@@ -91,17 +92,17 @@ def start_emotion_detection_stream():
 
             frame_count += 1
 
-#Every N frames
+            # Resize frame to reduce processing time
+            resized_frame = cv2.resize(frame, FRAME_RESIZE_DIM)
+
             if frame_count % ANALYZE_EVERY_N_FRAMES == 0:
-                
                 try:
                     if in_q.full():
-                     
                         try:
                             in_q.get_nowait()
                         except Empty:
                             pass
-                    in_q.put_nowait(frame.copy())
+                    in_q.put_nowait(resized_frame.copy())
                 except Exception:
                     pass
 
