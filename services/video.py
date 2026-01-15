@@ -30,6 +30,7 @@ def real_time_face_detection():
             lock = threading.Lock()
             running = True
 
+'''
             def analyzer_worker():
                 nonlocal latest_face, latest_result, running
                 while running:
@@ -115,7 +116,7 @@ def real_time_face_detection():
                 cap.release()
                 cv2.destroyAllWindows()
 
-
+'''
         # Call the function for testing
         if __name__ == "__main__":
             # For simple face detection + async emotion demo
