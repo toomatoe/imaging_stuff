@@ -1,1 +1,2 @@
+services/*.pt filter=lfs diff=lfs merge=lfs -text
 services/yolov8x.pt filter=lfs diff=lfs merge=lfs -text
