@@ -2,7 +2,7 @@
 secrets.json
 
 #ignore video and pt
-vehicles.mp4
+*.mp4
 yolov8x.pt
 
 # Byte-compiled / optimized / DLL files
