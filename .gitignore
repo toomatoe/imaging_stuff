@@ -1,3 +1,10 @@
+#ignore secrets file
+secrets.json
+
+#ignore video and pt
+vehicles.mp4
+yolov8x.pt
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
